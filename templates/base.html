@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    {% block 'head' %}{% endblock %}
+
+    <title>{% block 'title' %}{% endblock %}</title>
+  </head>
+  <body>
+    
+    <div class="sidebar">
+        <div class="logo-details">
+            <div class="logo_name">MECAJATO</div>
+            <i class='bx bx-menu' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="#">
+              <i class='bx bx-grid-alt'></i>
+              <span class="links_name">Página inicial</span>
+            </a>
+            <span class="tooltip">Página inicial</span>
+          </li>
+          <li>
+          <a href="#">
+            <i class='bx bx-user' ></i>
+            <span class="links_name">Clientes</span>
+          </a>
+          <span class="tooltip">Clientes</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-chat' ></i>
+            <span class="links_name">Serviços</span>
+          </a>
+          <span class="tooltip">Serviços</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-folder' ></i>
+            <span class="links_name">Agenda</span>
+          </a>
+          <span class="tooltip">Agenda</span>
+        </li>
+        <li>
+          <a href="#">
+            <i class='bx bx-cog' ></i>
+            <span class="links_name">Histórico</span>
+          </a>
+          <span class="tooltip">Histórico</span>
+        </li>
+        </ul>
+      </div>
+      
+      <section class="home-section">
+          {% block 'dashboard'%}
+          {% endblock %}
+
+      </section>
+
+    {% block 'body' %}
+    {% endblock %}
+    <script src="{% static 'general/js/base.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
