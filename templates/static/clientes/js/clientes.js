@@ -43,6 +43,9 @@ function dados_cliente(){
     }).then(function(data){
         document.getElementById('form-att-cliente').style.display = 'block'
         
+        id = document.getElementById('id')
+        id.value = data['cliente_id']
+
         nome = document.getElementById('nome')
         nome.value = data['cliente']['nome']
 
@@ -58,7 +61,6 @@ function dados_cliente(){
         div_carros = document.getElementById('carros')
 
         for(i=0; i<data['carros'].length; i++){
-            console.log(data['carros'][i])
             div_carros.innerHTML += "\<form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
                 <div class='row'>\
                         <div class='col-md'>\
@@ -82,5 +84,43 @@ function dados_cliente(){
         
     })
 
+
+}
+
+
+function update_cliente(){
+    nome = document.getElementById('nome').value
+    sobrenome = document.getElementById('sobrenome').value
+    email = document.getElementById('email').value
+    cpf = document.getElementById('cpf').value
+    id = document.getElementById('id').value
+
+    fetch('/clientes/update_cliente/' + id, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrf_token,
+        },
+        body: JSON.stringify({
+            nome: nome,
+            sobrenome: sobrenome,
+            email: email,
+            cpf: cpf,
+        })
+
+    }).then(function(result){
+        return result.json()
+    }).then(function(data){
+
+        if(data['status'] == '200'){
+            nome = data['nome']
+            sobrenome = data['sobrenome']
+            email = data['email']
+            cpf = data['cpf']
+            console.log('Dados alterado com sucesso')
+        }else{
+            console.log('Ocorreu algum erro')
+        }
+
+    })
 
 }
