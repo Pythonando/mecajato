@@ -1,1 +1,20 @@
-Estou no novo Serviços
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+{% endblock %}
+
+
+{% block 'dashboard' %}
+    <br>
+    <br>
+    <div class="container">
+        <form action="{% url 'novo_servico' %}" method="POST">{% csrf_token %}
+            {{form.as_p}}
+
+            <input type="submit" class="btn btn-success" value="Salvar">
+        </form>
+    </div>
+
+{% endblock %}
