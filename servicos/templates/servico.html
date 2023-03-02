@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'clientes/css/clientes.css' %}">
+    <link rel="stylesheet" href="{% static 'servicos/css/listar_servico.css' %}">
+{% endblock %}
+
+
+{% block 'dashboard' %}
+    <br>
+    <br>
+    <div class="container">
+
+        {{servico.titulo}}
+        
+    </div>
+
+{% endblock %}
