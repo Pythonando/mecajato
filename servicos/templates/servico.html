@@ -11,9 +11,50 @@
     <br>
     <br>
     <div class="container">
-
-        {{servico.titulo}}
+        <a class="btn btn-info" href="{% url 'gerar_os' servico.identificador %}">GERAR OS</a>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Serviço adicional
+        </button>
+        <br>
+        <br>
+        <h3>{{servico.titulo}}<h3>
         
+    </div>
+
+
+
+{% endblock %}
+
+
+{% block 'body' %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Serviço adicional</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'servico_adicional' %}" method="POST">{% csrf_token %}
+                    <input type="hidden" name="identificador_servico" value={{servico.identificador}}>
+
+                    <label>Digite o título:</label>
+                    <input type="text" placeholder="titulo" class="form-control" name="titulo">
+
+                    <label>Digite o descrição:</label>
+                    <input type="text" placeholder="titulo" class="form-control" name="descricao">
+    
+
+                    <label>Digite o preço:</label>
+                    <input type="number" placeholder="titulo" class="form-control" name="preco">
+                    <br>
+                    <input type="submit" class="btn btn-success" value="Salvar">
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
