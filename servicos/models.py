@@ -1,9 +1,12 @@
-from email.policy import default
+from datetime import datetime
 from secrets import token_hex, token_urlsafe
+
+from email.policy import default
 from django.db import models
 from clientes.models import Cliente
+
 from .choices import ChoicesCategoriaManutencao
-from datetime import datetime
+
 
 class CategoriaManutencao(models.Model):
     titulo = models.CharField(max_length=3, choices=ChoicesCategoriaManutencao.choices)
@@ -12,6 +15,7 @@ class CategoriaManutencao(models.Model):
     def __str__(self) -> str:
         return self.titulo
 
+
 class ServicoAdicional(models.Model):
     titulo = models.CharField(max_length=50)
     descricao = models.TextField()
@@ -19,6 +23,7 @@ class ServicoAdicional(models.Model):
 
     def __str__(self) -> str:
         return self.titulo
+
 
 class Servico(models.Model):
     titulo = models.CharField(max_length=30)
@@ -34,7 +39,7 @@ class Servico(models.Model):
     def __str__(self) -> str:
         return self.titulo
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> None:
         if not self.protocole:
             self.protocole = datetime.now().strftime("%d/%m/%Y-%H:%M:%S-") + token_hex(16)
 
@@ -43,7 +48,7 @@ class Servico(models.Model):
 
         super(Servico, self).save(*args, **kwargs)
 
-    def preco_total(self):
+    def preco_total(self) -> float:
         preco_total = float(0)
         for categoria in self.categoria_manutencao.all():
             preco_total += float(categoria.preco)
