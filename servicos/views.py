@@ -1,14 +1,18 @@
-from django.shortcuts import render, get_object_or_404
-from .forms import FormServico
-from django.http import HttpResponse, FileResponse
-from .models import Servico, ServicoAdicional
-from fpdf import FPDF
 from io import BytesIO
 
-def novo_servico(request):
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpRequest, HttpResponse, Http404, FileResponse
+from fpdf import FPDF
+
+from .forms import FormServico
+from .models import Servico, ServicoAdicional
+
+
+def novo_servico(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         form = FormServico()
         return render(request, 'novo_servico.html', {'form': form})
+
     elif request.method == "POST":
         form = FormServico(request.POST)
         if form.is_valid():
@@ -16,17 +20,20 @@ def novo_servico(request):
             return HttpResponse('Salvo com sucesso')
         else:
             return render(request, 'novo_servico.html', {'form': form})
-        
-def listar_servico(request):
+
+
+def listar_servico(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         servicos = Servico.objects.all()
         return render(request, 'listar_servico.html', {'servicos': servicos})
-    
-def servico(request, identificador):
+
+
+def servico(request: HttpRequest, identificador: str) -> HttpResponse | Http404:
     servico = get_object_or_404(Servico, identificador=identificador)
     return render(request, 'servico.html', {'servico': servico})
 
-def gerar_os(request, identificador):
+
+def gerar_os(request: HttpRequest, identificador: str) -> FileResponse | Http404:
     servico = get_object_or_404(Servico, identificador=identificador)
 
     pdf = FPDF()
@@ -59,15 +66,17 @@ def gerar_os(request, identificador):
     return FileResponse(pdf_bytes, as_attachment=True, filename=f"os-{servico.protocole}.pdf")
 
 
-def servico_adicional(request):
-    identificador_servico = request.POST.get('identificador_servico')
-    titulo = request.POST.get('titulo')
-    descricao = request.POST.get('descricao')
-    preco = request.POST.get('preco')
+def servico_adicional(request: HttpRequest) -> HttpResponse:
+    identificador_servico: str = request.POST.get('identificador_servico')
+    titulo: str = request.POST.get('titulo')
+    descricao: str = request.POST.get('descricao')
+    preco: str = request.POST.get('preco')
 
-    servico_adicional = ServicoAdicional(titulo=titulo,
-                                        descricao=descricao,
-                                        preco=preco)
+    servico_adicional = ServicoAdicional(
+        titulo=titulo,
+        descricao=descricao,
+        preco=preco
+    )
     
     servico_adicional.save()
 

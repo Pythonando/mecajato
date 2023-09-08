@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Cliente(models.Model):
     nome = models.CharField(max_length=50)
     sobrenome = models.CharField(max_length=50)
@@ -8,6 +9,7 @@ class Cliente(models.Model):
 
     def __str__(self) -> str:
         return self.nome
+
 
 class Carro(models.Model):
     carro = models.CharField(max_length=50)
